@@ -1,0 +1,15 @@
+0: .	 directory
+1: ..	 directory
+2: ans1
+3: c	 directory
+4: d	 directory
+5: description.txt
+6: ans2
+7: g	 directory
+8: a.out
+9: e	 directory
+10: b	 directory
+11: f	 directory
+12: a	 directory
+13: main.c
+Found b.out in ./g/g

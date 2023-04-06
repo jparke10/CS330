@@ -1,0 +1,42 @@
+Part 1 (Hello World)
+
+1) Create an account on ix-dev 
+
+     a) Go to https://systems.cs.uoregon.edu/Links to an external site.
+
+     b) User account info -> Newuser
+
+2) Create an account on Bitbucket (https://bitbucket.org (Links to an external site.))
+
+3) Log into ix-dev and clone the instructor's homework repo (https://bitbucket.org/joseph-mclaughlin/uo-cs-330-spring-2023-homeworks/ (Links to an external site.))
+
+4) Create a repo on your Bitbucket account with the name "uoregon-cis330-s23" (without the quotation marks)
+
+     a) Make sure it's private
+
+     b) Make sure it's using git
+
+    c) Add the instructor (jmclaug2@uoregon.edu) and the TAs (tamannas@uoregon.edu, aktilekzhumadilova@gmail.com) to your repo and give them write access
+
+5) Clone your repo "uoregon-cis330-s23" (make sure it's in a different directory than the instructor's homework repo).
+
+6) Copy the directory homework01 from  the instructor's homework repo directory to your personal repo directory.
+
+7) Implement the function 'find_file()' which recursively searches the provided directory and its subdirectories to locate any file that matches the provided file name. Make sure to read the provided code FIRST before beginning the assignment.
+
+8) Test your code against the provided directory structure and answer files.
+
+   For example, executing './a.out . b.out' should generate the same output as what is shown in the 'ans1' file.
+
+   Executing './a.out . a.out' should generate the same output as what is shown in the 'ans2' file.
+
+   Play around with different directory structures and file names to make sure your code works correctly - your assignment will be evaluated on a different input directory structure and file names.
+
+9) Commit your code and push it to Bitbucket.
+
+10) Make sure the change has been successfully pushed to Bitbucket by going to your repo on the Bitbucket website and reading your main.c file
+
+ 
+Part 2 (Survey)
+
+11) Goto to the Google Forms survey (https://forms.gle/u7RmD3aBJrGjqbJm7 (Links to an external site.)) and fill out the survey.
