@@ -69,5 +69,11 @@ void usage(int argc, char** argv)
 void find_file(char* dir_name, char* file_to_find)
 {
 	// TODO
+	char path[PATH_MAX]; // PATH_MAX from <linux/limits.h>
+	dp = opendir(dir_name);
+	while ((dirp = readdir(dp)) != NULL) {
+		if (strcmp(dirp->d_name, file_to_find) == 0)
+			printf("file found! %s\n", dp->d_name);
+	}
 }
 
