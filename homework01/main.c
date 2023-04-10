@@ -6,6 +6,8 @@
 #include <string.h>
 #include <linux/limits.h>
 
+#define _BSD_SOURCE
+
 void usage(int argc, char** argv);
 void find_file(char* dir_name, char* file_to_find);
 
