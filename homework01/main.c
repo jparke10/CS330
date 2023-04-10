@@ -70,12 +70,31 @@ void usage(int argc, char** argv)
 
 void find_file(char* dir_name, char* file_to_find)
 {
-	// TODO
 	char path[PATH_MAX]; // PATH_MAX from <linux/limits.h>
-	dp = opendir(dir_name);
-	while ((dirp = readdir(dp)) != NULL) {
-		if (strcmp(dirp->d_name, file_to_find) == 0)
-			printf("file found! %s\n", dp->d_name);
+	// declare again in correct scope
+	DIR* dp = opendir(dir_name);
+	struct dirent* dirp;
+	// if directory is unable to be opened (safe! i hope)
+	if (!dp) {
+		printf("Error: Unable to open directory %s\n", dir_name);
+		exit(EXIT_FAILURE);
 	}
+	// iterate through dirent of every file in the opened directory
+	while ((dirp = readdir(dp)) != NULL) {
+		// file is found, report as such
+		if (strcmp(dirp->d_name, file_to_find) == 0)
+			printf("Found %s in directory %s\n", dirp->d_name, dir_name);
+		// if current dirent is a directory and is not . or .., recurse into it
+		if (dirp->d_type == DT_DIR && 
+		    strcmp(dirp->d_name, ".") != 0 &&
+		    strcmp(dirp->d_name, "..") != 0) {
+			// construct a new path and recurse into the found subdirectory
+			strcpy(path, dir_name);
+			strcat(path, "/");
+			strcat(path, dirp->d_name);
+			find_file(path, file_to_find);
+		}
+	}
+	closedir(dp);
 }
 
