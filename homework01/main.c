@@ -83,7 +83,7 @@ void find_file(char* dir_name, char* file_to_find)
 	while ((dirp = readdir(dp)) != NULL) {
 		// file is found, report as such
 		if (strcmp(dirp->d_name, file_to_find) == 0)
-			printf("Found %s in directory %s\n", dirp->d_name, dir_name);
+			printf("Found %s in %s\n", dirp->d_name, dir_name);
 		// if current dirent is a directory and is not . or .., recurse into it
 		if (dirp->d_type == DT_DIR && 
 		    strcmp(dirp->d_name, ".") != 0 &&
