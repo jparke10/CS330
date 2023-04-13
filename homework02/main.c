@@ -40,9 +40,8 @@ void usage(int argc, char** argv)
 int get_num_ints(char** argv)
 {
 	FILE *fp;
-	unsigned int *lineCounts = malloc(sizeof(int) * 2);
+	unsigned int lineCounts[] = {0, 0};
 	for (int i = 0; i < 2; i++) {
-		lineCounts[i] = 0;
 		fp = fopen(argv[i + 1], "r");
 		if (fp == NULL) {
 			fprintf(stderr,
@@ -57,12 +56,9 @@ int get_num_ints(char** argv)
 		fclose(fp);
 	}
 	if (lineCounts[0] != lineCounts[1]) {
-		free(lineCounts);
 		return -1;
 	} else {
-		int count = lineCounts[0];
-		free(lineCounts);
-		return count;
+		return lineCounts[0];
 	}
 }
 
