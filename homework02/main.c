@@ -39,7 +39,31 @@ void usage(int argc, char** argv)
  */
 int get_num_ints(char** argv)
 {
-  /* TODO */
+	FILE *fp;
+	unsigned int *lineCounts = malloc(sizeof(int) * 2);
+	for (int i = 0; i < 2; i++) {
+		lineCounts[i] = 0;
+		fp = fopen(argv[i + 1], "r");
+		if (fp == NULL) {
+			fprintf(stderr,
+				"File %s could not be opened, check permission or path\n",
+				argv[i + 1]);
+			exit(EXIT_FAILURE);
+		}
+		char c;
+		while ((c = fgetc(fp)) != EOF)
+			if (c == '\n')
+				lineCounts[i] = lineCounts[i] + 1;
+		fclose(fp);
+	}
+	if (lineCounts[0] != lineCounts[1]) {
+		free(lineCounts);
+		return -1;
+	} else {
+		int count = lineCounts[0];
+		free(lineCounts);
+		return count;
+	}
 }
 
 
@@ -148,8 +172,8 @@ int main(int argc, char** argv)
     if(num_ints == -1) {
         fprintf(stderr, "ERR: The two input files have different # of ints\n");
         exit(EXIT_FAILURE);
-    } 
-
+    }
+    // printf("Number of integers in both files: %d\n", num_ints);
     unsigned int* input_one = NULL;
     unsigned int* input_two = NULL;
     unsigned long int* output = NULL;
