@@ -169,7 +169,7 @@ capitalize_first_col(char* in_str, int row, int col, int rows, int cols)
   if (col == 0) {
   	int length = strlen(in_str);
   	for (int i = 0; i < length; i++)
-		in_str[i] = toupper(in_str[i]);
+  		in_str[i] = toupper(in_str[i]);
   }
 }
 
