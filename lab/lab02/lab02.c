@@ -69,6 +69,8 @@ int main(int argc, char** argv)
   printf("\nCapitalized matrix:\n");
   apply_by_col(capitalize_first_col, data, data_rows, data_cols);
   apply_by_row(print_str, data, data_rows, data_cols);
+
+  free_data(data, data_rows, data_cols);
   return 0;
 }
 
