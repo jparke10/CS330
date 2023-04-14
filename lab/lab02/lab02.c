@@ -45,6 +45,8 @@ void free_data(char*** data, int rows, int cols);
 
 void apply_by_row(void (*func)(char*, int, int, int, int), char*** data, 
                   int rows, int cols);
+void apply_by_col(void (*func)(char*, int, int, int, int), char*** data,
+                  int rows, int cols);
 void capitalize_first_col(char* in_str, int row, int col, int rows, int cols);
 void print_str(char* in_str, int row, int col, int rows, int cols);
 
@@ -64,7 +66,9 @@ int main(int argc, char** argv)
   apply_by_row(print_str, data, data_rows, data_cols);
 
   // TODO: add your test calls for parts (3) and (5) here
-
+  printf("\nCapitalized matrix:\n");
+  apply_by_col(capitalize_first_col, data, data_rows, data_cols);
+  apply_by_row(print_str, data, data_rows, data_cols);
   return 0;
 }
 
@@ -162,6 +166,11 @@ void
 capitalize_first_col(char* in_str, int row, int col, int rows, int cols)
 {
   // TODO: add your code for part (2) here
+  if (col == 0) {
+  	int length = strlen(in_str);
+  	for (int i = 0; i < length; i++)
+		in_str[i] = toupper(in_str[i]);
+  }
 }
 
 
@@ -182,4 +191,12 @@ apply_by_col(void (*func)(char*, int, int, int, int),
              int rows, int cols)
 {
   // TODO: add your code for part (4) here
+  int i, j;
+  for (i = 0; i < rows; i++)
+  {
+    for (j = 0; j < cols; j++)
+    {
+      func(data[i][j], i, j, rows, cols);
+    }
+  }
 }
