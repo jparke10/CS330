@@ -192,11 +192,11 @@ apply_by_col(void (*func)(char*, int, int, int, int),
 {
   // TODO: add your code for part (4) here
   int i, j;
-  for (i = 0; i < rows; i++)
+  for (i = 0; i < cols; i++)
   {
-    for (j = 0; j < cols; j++)
+    for (j = 0; j < rows; j++)
     {
-      func(data[i][j], i, j, rows, cols);
+      func(data[j][i], j, i, rows, cols);
     }
   }
 }
