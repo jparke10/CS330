@@ -84,7 +84,27 @@ int get_num_ints(char** argv)
 void allocate_mem(unsigned int** input_one, unsigned int** input_two, 
                   unsigned long int** output, int num_ints)
 {
-  /* TODO */
+	// dereference each parameter pointer as we only need a 1-d array
+	// and allocate_mem takes pointers to pointers
+	// (in main, we call allocate_mem with addresses)
+	*input_one = (unsigned int*) malloc(sizeof(unsigned int) * num_ints);
+	if (*input_one == NULL) {
+		fprintf(stderr,
+			"Error: malloc failed on first input\n");
+		exit(EXIT_FAILURE);
+	}
+	*input_two = (unsigned int*) malloc(sizeof(unsigned int) * num_ints);
+	if (*input_two == NULL) {
+		fprintf(stderr,
+			"Error: malloc failed on second input\n");
+		exit(EXIT_FAILURE);
+	}
+	*output = (unsigned long int*) malloc(sizeof(unsigned long int) * num_ints);
+	if (*output == NULL) {
+		fprintf(stderr,
+			"Error: malloc failed on output\n");
+		exit(EXIT_FAILURE);
+	}
 }
 
 
@@ -176,11 +196,22 @@ int main(int argc, char** argv)
         exit(EXIT_FAILURE);
     }
     // printf("Number of integers in both files: %d\n", num_ints);
+
     unsigned int* input_one = NULL;
     unsigned int* input_two = NULL;
     unsigned long int* output = NULL;
+
     // Allocate memory to store the integers
     allocate_mem(&input_one, &input_two, &output, num_ints);
+
+    // allocate test code
+    /*
+    input_one[num_ints - 1] = 123;
+    input_two[num_ints - 1] = 456;
+    output[num_ints - 1] = 789;
+    printf("Test element of each array: %d %d %d\n", input_one[num_ints - 1],
+	   input_two[num_ints - 1], output[num_ints - 1]);
+    */
 
     // Read the integers from the two input files
     get_ints(argv, input_one, input_two, output, num_ints);
