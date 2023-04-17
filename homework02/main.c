@@ -186,7 +186,11 @@ void get_ints(char** argv, unsigned int* input_one, unsigned int* input_two,
 void sum_ints(unsigned int* input_one, unsigned int* input_two, 
               unsigned long int* output, int num_ints)
 {
-  /* TODO */
+	for (int i = 0; i < num_ints; i++) {
+		// to ensure correct addition, convert inputs to longs
+		output[i] = (unsigned long) input_one[i] +
+			    (unsigned long) input_two[i];
+	}
 }
 
 /* This function saves the summed output to an output file, whose name was 
