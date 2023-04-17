@@ -124,7 +124,52 @@ void allocate_mem(unsigned int** input_one, unsigned int** input_two,
 void get_ints(char** argv, unsigned int* input_one, unsigned int* input_two,
               unsigned long int* output, int num_ints)
 {
-  /* TODO */
+	// parallelized reading of both files, probably not memory efficient
+	FILE* fp1, *fp2;
+	// fgets needs a buffer string to copy each line
+	char* buffer1 = malloc(sizeof(char) * MAX_NUM_LENGTH);
+	char* buffer2 = malloc(sizeof(char) * MAX_NUM_LENGTH);
+	fp1 = fopen(argv[1], "r");
+	fp2 = fopen(argv[2], "r");
+	// valid file checks
+	if (fp1 == NULL) {
+		fprintf(stderr,
+			"Error: file %s unable to be opened\n",
+			argv[1]);
+		exit(EXIT_FAILURE);
+	} else if (fp2 == NULL) {	
+		fprintf(stderr,
+			"Error: file %s unable to be opened\n",
+			argv[2]);
+		exit(EXIT_FAILURE);
+	}
+	for (int i = 0; i < num_ints; i++) {
+		// get both strings and check that string is valid
+		if (fgets(buffer1, MAX_NUM_LENGTH, fp1) != NULL &&
+		    fgets(buffer2, MAX_NUM_LENGTH, fp2) != NULL) {
+			// atoi is normally used for sign ints but can be
+			// assigned to unsigned ints
+			unsigned int num1 = atoi(buffer1);
+			unsigned int num2 = atoi(buffer2);
+			input_one[i] = num1;
+			input_two[i] = num2;
+		} else if (fgets(buffer1, MAX_NUM_LENGTH, fp1) == NULL) {
+			fprintf(stderr,
+				"Error: Could not read line %d from file %s\n",
+				i, argv[1]);
+			exit(EXIT_FAILURE);
+		} else {
+			fprintf(stderr,
+				"Error: Could not read line %d from file %s\n",
+				i, argv[2]);
+			exit(EXIT_FAILURE);
+		}
+	}
+	// close files and free buffers
+	fclose(fp1);
+	fclose(fp2);
+	free(buffer1);
+	free(buffer2);
 }
 
 /* This function does an element-wise addition between the two input arrays 
