@@ -209,7 +209,17 @@ void sum_ints(unsigned int* input_one, unsigned int* input_two,
 void save_output(char** argv, unsigned int* input_one, unsigned int* input_two,
                  unsigned long int* output, int num_ints)
 {
-  /* TODO */
+	FILE *fp;
+	fp = fopen(argv[3], "w");
+	if (fp == NULL) {
+		fprintf(stderr,
+			"Error: unable to open %s, check your r/w perms or path",
+			argv[3]);
+	}
+	for (int i = 0; i < num_ints; i++)
+		// print directly to the file stream with same formatting as sample
+		fprintf(fp, "%lu\n", output[i]);
+	fclose(fp);
 }
 
 /* This program takes in three text file names as input. 
