@@ -281,6 +281,11 @@ int main(int argc, char** argv)
     // Store the result in the output file 
     save_output(argv, input_one, input_two, output, num_ints);
 
+    // notify of completion
+    fprintf(stdout,
+	    "Successfully wrote %d lines to file %s\n",
+	    num_ints, argv[3]);
+
     free(input_one);
     free(input_two);
     free(output);
