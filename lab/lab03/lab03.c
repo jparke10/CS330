@@ -122,7 +122,12 @@ void free_doubly_indirectly(int **array) {
 
 void free_chained(int ******array) {
     //// Your code goes below this line.
-
+    free(*****array);
+    free(****array);
+    free(***array);
+    free(**array);
+    free(*array);
+    free(array);
 
     //// Your code ends above this line.
     return;
@@ -132,7 +137,9 @@ void free_chained(int ******array) {
 
 void print_directly(int *array, int size) {
     //// Your code goes below this line.
-
+    for (int i = 0; i < size; ++i)
+	    printf("%d", array[i]);
+    printf("\n");
 
     //// Your code ends above this line.
     return;
@@ -140,7 +147,9 @@ void print_directly(int *array, int size) {
 
 void print_indirectly(int *array, int size) {
     //// Your code goes below this line.
-
+    for (int i = 0; i < size; ++i)
+	    printf("%d", array[i]);
+    printf("\n");
 
     //// Your code ends above this line.
     return;
@@ -156,7 +165,9 @@ void print_doubly_indirectly(int **array, int size) {
 }
 void print_chained(int ******array, int size) {
     //// Your code goes below this line.
-
+    for (int i = 0; i < size; ++i)
+	    printf("%d", (*****array)[i]);
+    printf("\n");
 
     //// Your code ends above this line.
     return;
@@ -166,7 +177,8 @@ void print_chained(int ******array, int size) {
 
 void populate_directly(int *array, int size) {
     //// Your code goes below this line.
-
+    for (int i = 0; i < size; ++i)
+	    array[i] = i;
 
     //// Your code ends above this line.
     return;
@@ -174,7 +186,8 @@ void populate_directly(int *array, int size) {
 
 void populate_indirectly(int *array, int size) {
     //// Your code goes below this line.
-
+    for (int i = 0; i < size; ++i)
+	    array[i] = i;
 
     //// Your code ends above this line.
     return;
@@ -189,7 +202,8 @@ void populate_doubly_indirectly(int **array, int size) {
 
 void populate_chained(int ******array, int size) {
     //// Your code goes below this line.
-
+    for (int i = 0; i < size; ++i)
+	    (*****array)[i] = i;
 
     //// Your code ends above this line.
     return;
