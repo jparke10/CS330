@@ -1,0 +1,51 @@
+0. READ THE INSTRUCTIONS BELOW COMPLETELY BEFORE PROCEEDING.
+
+1. In this assignment, you will be implementing a sparse matrix-vector multiply.
+
+2. We have provided the following functionality:
+
+    a) reading a sparse matrix stored in Matrix Market format (i.e., mm_read_mtx_crd() function).
+
+    b) reading and printing out information about the matrix (i.e., read_info() and print_matrix_info() functions).
+
+    c) reading in a vector in a format similar to Matrix Market format (i.e., read_vector() function).
+
+    d) writing out the vector in a format similar to Matrix Market format (i.e., store_result() function).
+
+Read these functions to understand what they are doing.
+
+You do NOT have to read the functions in mmio.c (although you are welcome to, if you wish).
+
+3. Read the descriptions and implement the following functions:
+
+    a) convert_coo_to_csr(row_ind, col_ind, val, m, n, nnz, &csr_row_ptr, &csr_col_ind, &csr_vals);
+
+        i. Make sure the code is using O(N) algorithm, as described in class. Any code that runs for longer than 10 minutes will be considered non-functional for that data set (there WILL be large matrices in evaluation).
+
+        ii. Do NOT use any sorting algorithms.
+
+        iii. The code should work even when the non-zero elements are randomly rearranged.
+
+    b) spmv(csr_row_ptr, csr_col_ind, csr_vals, m, n, nnz, vector_x, res);
+
+4. Test the functions on the two given sets of input files, stored in test1 and test2 directories.
+
+    a) A.mtx is the sparse matrix.
+
+    b) x.mtx is the vector that you are multiplying the matrix with (i.e., A * x)
+
+    c) ans.mtx is the answer to A*x. Your results should be identical to ans.mtx, using the 'diff' command.
+
+5. Thing to note:
+
+    a) Do not change ANY of the provided skeleton code, including the header of the functions that you are required to implement.
+
+    b) Every function in the file (listed in 3. above) must be implemented to provide the described functionality.
+
+   c) Do not ADD any new functions..
+
+   d) Do NOT hard-code the file names. This will result in an automatic 0 for the four test files that will be used for grading (see the rubric for more detail).
+
+   e) Make sure your code compiles and runs on ix-dev with -std=c11 flag. The provided Makefile will take care of this. To compile it, type 'make' or 'make clean; make'
+
+6. Do the homework in your own repo, commit, and push to Bitbucket. If you do not push to Bitbucket, the TA and I cannot see the code, and it will be considered a late assignment (i.e., not graded).
