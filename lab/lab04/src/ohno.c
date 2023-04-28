@@ -30,9 +30,12 @@ ohno_init(FILE* where_to, const char* app_name)
 	    "Oh no: unable to allocate memory for error report\n");
     exit(EXIT_FAILURE);
   }
+  // works with stderr or a desired output file
   state->out = where_to;
+  // safer than modifying input string (also not const)
   char* namecpy = strdup(app_name);
   state->name = namecpy;
+  // count of errors
   state->error_number = 0;
   return 0;
 }
@@ -45,6 +48,7 @@ ohno_init(FILE* where_to, const char* app_name)
 void
 ohno_free()
 {
+  // namecpy is dynamically allocated with strdup
   free(state->name);
   free(state);
 }
