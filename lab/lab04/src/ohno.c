@@ -7,6 +7,9 @@ Implementation file for the error reporting system
 *********************************************/
 
 #include <ohno.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 static struct ohno_state *state;
 
@@ -21,6 +24,16 @@ static struct ohno_state *state;
 int
 ohno_init(FILE* where_to, const char* app_name)
 {
+  state = malloc(sizeof(struct ohno_state));
+  if (state == NULL) {
+    fprintf(stderr,
+	    "Oh no: unable to allocate memory for error report\n");
+    exit(EXIT_FAILURE);
+  }
+  state->out = where_to;
+  char* namecpy = strdup(app_name);
+  state->name = namecpy;
+  state->error_number = 0;
   return 0;
 }
 
@@ -32,6 +45,8 @@ ohno_init(FILE* where_to, const char* app_name)
 void
 ohno_free()
 {
+  free(state->name);
+  free(state);
 }
 
 /*
@@ -45,4 +60,23 @@ ohno_free()
 void
 ohno(const char* message, ohno_severity_t severity)
 {
+  switch (severity) {
+    case OHNO_WARNING:
+      fprintf(state->out,
+	      "Oh No, a warning: ");
+    case OHNO_SERIOUS:
+      fprintf(state->out,
+	      "Oh No, something serious occurred: ");
+    case OHNO_FATAL:
+      fprintf(state->out,
+	      "Oh No, a fatal error occurred: ");
+    case default:
+      fprintf(state->out,
+	      "Oh No, an unknown error occurred: ");
+  }
+  fprintf(state->out,
+	  "%s - in program %s\n", message, state->name);
+  state->error_number++;
+  if (severity == OHNO_FATAL)
+    exit(EXIT_FAILURE);
 }
