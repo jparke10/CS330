@@ -61,18 +61,22 @@ void
 ohno(const char* message, ohno_severity_t severity)
 {
   switch (severity) {
-    case OHNO_WARNING:
-      fprintf(state->out,
-	      "Oh No, a warning: ");
-    case OHNO_SERIOUS:
-      fprintf(state->out,
-	      "Oh No, something serious occurred: ");
-    case OHNO_FATAL:
-      fprintf(state->out,
-	      "Oh No, a fatal error occurred: ");
-    case default:
-      fprintf(state->out,
-	      "Oh No, an unknown error occurred: ");
+    case OHNO_WARNING: {
+      fprintf(state->out, "Oh No, a warning: ");
+      break;
+    }
+    case OHNO_SERIOUS: {
+      fprintf(state->out, "Oh No, a serious error occurred: ");
+      break;
+    }
+    case OHNO_FATAL: {
+      fprintf(state->out, "Oh No, a fatal error occurred: ");
+      break;
+    }
+    default: {
+      fprintf(state->out, "Oh No, an unknown error occurred: ");
+      break;
+    }
   }
   fprintf(state->out,
 	  "%s - in program %s\n", message, state->name);
