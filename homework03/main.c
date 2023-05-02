@@ -193,14 +193,24 @@ void convert_coo_to_csr(int* row_ind, int* col_ind, double* val,
 	(*csr_row_ptr)[0] = 0;
 	for (size_t i = 0; i < m; i++) {
 		(*csr_row_ptr)[i + 1] = histogram[i];
-		fprintf(stdout, "%d\n", histogram[i]);
 	}
 	free(histogram);
 
-	// clone row_ptr for col_ind and vals copy, not necessary to bring
+	// clone row_ptr for col_ind and vals conversion, not necessary to bring
 	// end pointer	
 	unsigned int* row_ptr_copy = (unsigned int*)malloc(sizeof(unsigned int) * m);
+	assert(row_ptr_copy);
 	memcpy(row_ptr_copy, (*csr_row_ptr), sizeof(unsigned int) * m);
+
+	for (int i = 0; i < nnz; i++) {
+		// store col_ind and vals in appropriate position for row_ptr
+		// CSR format is also 0-based instead of 1, account for this
+		int idx = row_ptr_copy[row_ind[i] - 1];
+		(*csr_col_ind)[idx] = col_ind[i] - 1;
+		(*csr_vals)[idx] = val[i];
+		idx++;
+	}
+	free(row_ptr_copy);
 }
 
 /* This function reads in a vector from a text file, similar in format to
