@@ -173,24 +173,30 @@ void convert_coo_to_csr(int* row_ind, int* col_ind, double* val,
                         double** csr_vals)
 
 {
-	// row_ptr gets num of rows + 1 ints, for every possible matrix row
-	// plus the end marker of the matrix
+	// row_ptr gets num of rows + 1 ints, for the beginning ptr of 0
+	// plus every containing row of the matrix
 	*csr_row_ptr = (unsigned int*)malloc(sizeof(unsigned int) * (m + 1)); assert(*csr_row_ptr);
 	// number of column indexes needed will match # of nonzero values
 	*csr_col_ind = (unsigned int*)malloc(sizeof(unsigned int) * nnz); assert(*csr_col_ind);
 	// number of values will match number of nonzeroes
 	*csr_vals = (double*)malloc(sizeof(double) * nnz); assert(*csr_vals);
+
+	// convert COO row_ind to CSR row_ptr with histogram and prefix sum equation
 	int* histogram = (int*)malloc(sizeof(int) * m); assert(histogram);
-	for (int i = 0; i < m; i++) {
-		int val = row_ind[i];
-		histogram[val]++;
+	// matrices are 1-indexed, account for this
+	for (size_t i = 0; i < nnz; i++) {
+		histogram[row_ind[i] - 1]++;
 	}
-	fprintf(stdout, "printing:\n");
-	for (int i = 0; i < m; i++) {
-		if (histogram[i] != 0)
-			fprintf(stdout, "%d: %d, ", i, histogram[i]);
+	for (size_t i = 1; i < m; i++) {
+		histogram[i] += histogram[i - 1];
 	}
-	fprintf(stdout, "\n");
+	(*csr_row_ptr)[0] = 0;
+	for (size_t i = 0; i < m; i++) {
+		(*csr_row_ptr)[i + 1] = histogram[i];
+	}
+	free(histogram);
+
+	
 }
 
 /* This function reads in a vector from a text file, similar in format to
