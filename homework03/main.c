@@ -211,6 +211,19 @@ void convert_coo_to_csr(int* row_ind, int* col_ind, double* val,
 		idx++;
 	}
 	free(row_ptr_copy);
+	/* test code for printing */
+	fprintf(stdout, "\nRow Pointers:\n");
+	for (int i = 0; i < m + 1; i++) {
+		fprintf(stdout, "%d \n", (*csr_row_ptr)[i]);
+	}
+	fprintf(stdout, "Column Indices:\n");
+	for (int i = 0; i < nnz; i++) {
+		fprintf(stdout, "%d \n", (*csr_col_ind)[i]);
+	}
+	fprintf(stdout, "Values:\n");
+	for (int i = 0; i < nnz; i++) {
+		fprintf(stdout, "%d\n", (*csr_vals)[i]);
+	}
 }
 
 /* This function reads in a vector from a text file, similar in format to
