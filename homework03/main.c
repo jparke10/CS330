@@ -182,36 +182,33 @@ void convert_coo_to_csr(int* row_ind, int* col_ind, double* val,
 	*csr_vals = (double*)malloc(sizeof(double) * nnz); assert(*csr_vals);
 
 	// convert COO row_ind to CSR row_ptr with histogram and prefix sum equation
-	int* histogram = (int*)malloc(sizeof(int) * m); assert(histogram);
 	// matrices are 1-indexed, account for this
+	// set entire array = 0 for stability
+	memset((*csr_row_ptr), 0, sizeof(unsigned int) * (m + 1));
 	for (size_t i = 0; i < nnz; i++) {
-		histogram[row_ind[i] - 1]++;
+		// histogram works fine since row_ind's are 1 through m
+		// and so is the row pointer (rowptr[0] always == 0)
+		(*csr_row_ptr)[row_ind[i]]++;
 	}
-	for (size_t i = 1; i < m; i++) {
-		histogram[i] += histogram[i - 1];
+	for (size_t i = 1; i < m + 1; i++) {
+		(*csr_row_ptr)[i] += (*csr_row_ptr)[i - 1];
 	}
-	(*csr_row_ptr)[0] = 0;
-	for (size_t i = 0; i < m; i++) {
-		(*csr_row_ptr)[i + 1] = histogram[i];
-	}
-	free(histogram);
-
-	// clone row_ptr for col_ind and vals conversion, not necessary to bring
-	// end pointer	
+	// need to be able to modify the row pointer so we create a clone
 	unsigned int* row_ptr_copy = (unsigned int*)malloc(sizeof(unsigned int) * m);
 	assert(row_ptr_copy);
 	memcpy(row_ptr_copy, (*csr_row_ptr), sizeof(unsigned int) * m);
-
 	for (int i = 0; i < nnz; i++) {
 		// store col_ind and vals in appropriate position for row_ptr
 		// CSR format is also 0-based instead of 1, account for this
-		int idx = row_ptr_copy[row_ind[i] - 1];
-		(*csr_col_ind)[idx] = col_ind[i] - 1;
-		(*csr_vals)[idx] = val[i];
-		idx++;
+		unsigned int *idx = &(row_ptr_copy[row_ind[i] - 1]);
+		(*csr_col_ind)[*idx] = col_ind[i] - 1;
+		(*csr_vals)[*idx] = val[i];
+		// if same row is accessed multiple times it will get next column index
+		(*idx)++;
 	}
 	free(row_ptr_copy);
-	/* test code for printing */
+	// test code for printing
+	/*
 	fprintf(stdout, "\nRow Pointers:\n");
 	for (int i = 0; i < m + 1; i++) {
 		fprintf(stdout, "%d \n", (*csr_row_ptr)[i]);
@@ -222,8 +219,9 @@ void convert_coo_to_csr(int* row_ind, int* col_ind, double* val,
 	}
 	fprintf(stdout, "Values:\n");
 	for (int i = 0; i < nnz; i++) {
-		fprintf(stdout, "%d\n", (*csr_vals)[i]);
+		fprintf(stdout, "%lf\n", (*csr_vals)[i]);
 	}
+	*/
 }
 
 /* This function reads in a vector from a text file, similar in format to
