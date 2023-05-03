@@ -194,10 +194,11 @@ void convert_coo_to_csr(int* row_ind, int* col_ind, double* val,
 		(*csr_row_ptr)[i] += (*csr_row_ptr)[i - 1];
 	}
 	// need to be able to modify the row pointer so we create a clone
+	// clone doesn't need last val since it == nnz
 	unsigned int* row_ptr_copy = (unsigned int*)malloc(sizeof(unsigned int) * m);
 	assert(row_ptr_copy);
 	memcpy(row_ptr_copy, (*csr_row_ptr), sizeof(unsigned int) * m);
-	for (int i = 0; i < nnz; i++) {
+	for (size_t i = 0; i < nnz; i++) {
 		// store col_ind and vals in appropriate position for row_ptr
 		// CSR format is also 0-based instead of 1, account for this
 		unsigned int *idx = &(row_ptr_copy[row_ind[i] - 1]);
@@ -292,7 +293,12 @@ void spmv(unsigned int* csr_row_ptr, unsigned int* csr_col_ind,
           double* csr_vals, int m, int n, int nnz, 
           double* vector_x, double* res)
 {
-  /* TODO */
+	for (size_t i = 0; i < m; i++) {
+		unsigned int row_begin = csr_row_ptr[i];
+		unsigned int row_end = csr_row_ptr[i + 1];
+		for (size_t j = row_begin; j < row_end; j++)
+			res[i] += csr_vals[j] * vector_x[csr_col_ind[j]];
+	}
 }
 
 
