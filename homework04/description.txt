@@ -1,0 +1,53 @@
+0. READ THE INSTRUCTIONS BELOW COMPLETELY BEFORE PROCEEDING.
+
+1. In this assignment, you will be implementing BFS using
+
+    a) a linked list, and
+
+    b) sparse matrix-vector multiply (i.e., using an adjacency matrix)
+
+2. We have provided the following functionality:
+
+    a) void load_matrix(char* mat_name, int*** int_array, uint32_t* row, uint32_t* col, uint32_t* nnz);
+
+    b) void save_result(int* vector, int rows, int src, int ll_or_spmv);
+
+    c) Other misc. support functions
+
+Read these functions to understand what they are doing.
+
+3. Read the descriptions and implement the following functions:
+
+    a) void construct_adj_list(int** adj_mat, int rows, int cols, adj_node_t*** list);
+
+    b) void bfs(adj_node_t** list, int rows, int source, int* color, int* distance, int* parent);
+
+    c) void bfs_spmv(int** int_array, int rows, int cols, int source, int* color, int* distance)
+
+        i) void matrix_transpose(int** dst, int** src, int rows, int cols);
+
+Some functions are partially implemented - look for "INSERT YOUR CODE HERE"
+
+4. Test the functions on the two given sets of input files, stored in test1 and test2 directories.
+
+    a) test1.txt (or test2.txt) are the files containing the adjacency matrix of the graph
+
+    b) ans_X.txt is the answer (i.e., distance from the source) where X is the source vertex.
+
+5. Thing to note:
+
+    a) Do not change ANY of the provided skeleton code, including the header of the functions that you are required to implement.
+
+    b) Every function in the file (listed in 3. above) must be implemented to provide the described functionality.
+
+   c) In this homework, you MAY ADD new functions as needed (this is different from previous homework).
+
+   d) Do NOT hard-code the file names. This will result in an automatic 0 for the four test files that will be used for grading (see the rubric for more detail).
+
+   e) Make sure your code compiles and runs on ix-dev with -std=c11 flag.
+
+   f) This homework is worth more than the previous homework. This is because it's a LOT more work.
+
+       So, START EARLY!
+
+6. Do the homework in your own repo, commit, and push to Bitbucket. If you do not push to Bitbucket, the TA and I cannot see the code, and it will be considered a late assignment (i.e., not graded).
