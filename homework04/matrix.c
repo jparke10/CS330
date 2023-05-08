@@ -88,6 +88,9 @@ void matrix_transpose(int** dst, int** src, int rows, int cols)
     assert(rows == cols);
 
     // INSERT YOUR CODE HERE
+    for (int i = 0; i < rows; i++)
+	    for (int j = 0; j < cols; j++)
+		    dst[j][i] = src[i][j];
 }
 
 
