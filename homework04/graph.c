@@ -157,6 +157,14 @@ void construct_adj_list(int** adj_mat, int rows, int cols, adj_node_t*** list)
     // INSERT YOUR CODE HERE
     // HINT: You will need to use create_node() and add_node() here
     // Go through each vertex and construct its adjacency list
+    // hit every vertex by iterating rows, hit every neighbor by cols
+    for (int i = 0; i < rows; i++)
+	    for (int j = 0; j < cols; j++)
+		    if (adj_mat[i][j] != 0) {
+			    // create temp node and feed it to linked list
+			    adj_node_t *node = create_node(j);
+			    add_node(myList, i, node);
+		    }
 
     fprintf(stdout, "done\n");
 }
