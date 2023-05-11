@@ -274,18 +274,57 @@ void bfs(adj_node_t** list, int rows, int source,
     // distance should be initialized to -1 for infinity
     // parent should be initialized to -1 for NIL
 
+    for (int i = 0; i < rows; i++) {
+	    color[i] = 0;
+	    distance[i] = -1;
+	    parent[i] = -1;
+    }
+
     // Initialize the source vertex
     // distance for the source vertex is 0, so it should be initialized as such
     // it has no parent, so initialize it to -1
     // color should be initialized to 1
 
+    distance[source] = 0;
+    parent[source] = -1;
+    color[source] = 1;
+
     // Initialize the queue with the source vertex
     // HINT: use create_node(source) and add_node
+
+    adj_node_t **queue;
+    int queue_size = 0;
+    init_adj_list(&queue, rows);
+    adj_node_t *head = create_node(source);
+    add_node(queue, 0, head);
+    queue_size++;
 
     // bfs iteration
     // HINT: use remove_node (to fetch & dequeu the vertex)
     // HINT: you will also need create_node an add_node here
-
+    
+    while (queue_size != 0) {
+	    int n = remove_node(queue);
+	    queue_size--;
+	    // pull current vertex
+	    adj_node_t* v = list[n];
+	    // use while loop to hit each in adjacency list
+	    // (otherwise we would need a count of the list)
+	    while (v != NULL) {
+		    if (color[v->vid] == 0) {
+			    color[v->vid] = 1;
+			    parent[v->vid] = n;
+			    distance[v->vid] = distance[n] + 1;
+			    adj_node_t *new_node = create_node(v->vid);
+			    // add node to source vertex (always 0)
+			    add_node(queue, 0, new_node);
+			    queue_size++;
+		    }
+		    // iterate to next vertex in list
+		    v = v->next;
+	    }
+	    color[n] = 2;
+	    
    fprintf(stdout, "done\n");
 
     #if DEBUG
