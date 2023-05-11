@@ -325,7 +325,8 @@ void bfs(adj_node_t** list, int rows, int source,
 	    }
 	    color[n] = 2;
     }
-	    
+
+    free_adj_list(queue, rows);
     fprintf(stdout, "done\n");
 
     #if DEBUG
