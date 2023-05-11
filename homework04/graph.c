@@ -154,7 +154,6 @@ void construct_adj_list(int** adj_mat, int rows, int cols, adj_node_t*** list)
     adj_node_t** myList = *list;
 
 
-    // INSERT YOUR CODE HERE
     // HINT: You will need to use create_node() and add_node() here
     // Go through each vertex and construct its adjacency list
     // hit every vertex by iterating rows, hit every neighbor by cols
@@ -266,8 +265,6 @@ void bfs(adj_node_t** list, int rows, int source,
     assert(parent);
 
     fprintf(stdout, "Breadth first search on the grahp using linked list ... ");
-
-    // INSERT YOUR CODE HERE
 
     // Initialize the vertices
     // color should be initialized to 0

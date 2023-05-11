@@ -183,7 +183,6 @@ void bfs_spmv(int** int_array, int rows, int cols, int source,
 
     // Do BFS until done
     while(!done) {
-        // INSERT YOUR CODE HERE
 	// zero vector for each iter
 	reset_vector(dst, cols);
         // given a vector of source vetices, find the neighbors
