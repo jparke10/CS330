@@ -1,4 +1,4 @@
-CC=gcc-13
+CC=gcc
 sources = $(wildcard *.c)
 objects = $(addsuffix .o, $(basename $(sources)))
 flags = -g -W -Wall -std=c11 -DDEBUG=1 -DTEST=0

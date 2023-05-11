@@ -188,11 +188,11 @@ void bfs_spmv(int** int_array, int rows, int cols, int source,
         // given a vector of source vetices, find the neighbors
         // HINT: spmv
 	int neighbor_found = 0;
-	for (int i = 0; i < cols; i++) {
-		if (src[i] != 0) {
-			for (int j = 0; j < rows; j++) {
-				int neighbor = int_array[i][j] * src[i];
-				if (neighbor != 0) {
+	for (int i = 0; i < rows; i++) {
+		if (src[i] == 1) {
+			for (int j = 0; j < cols; j++) {
+				int neighbor = int_array[i][j] * src[j];
+				if (neighbor) {
 					neighbor_found = 1;
 					dst[j] = 1;
 				}
@@ -217,7 +217,7 @@ void bfs_spmv(int** int_array, int rows, int cols, int source,
         // Check to see if no neighbors were found,
         // in which case, we are done
 	if (neighbor_found == 0)
-		done++;
+		done = 1;
         // iter is equivalent to each `breadth' searched (i.e., distance from
         // the source vertex)
 	iter++;
