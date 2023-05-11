@@ -324,8 +324,9 @@ void bfs(adj_node_t** list, int rows, int source,
 		    v = v->next;
 	    }
 	    color[n] = 2;
+    }
 	    
-   fprintf(stdout, "done\n");
+    fprintf(stdout, "done\n");
 
     #if DEBUG
         print_bfs_result(rows, color, distance, parent);
