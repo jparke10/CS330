@@ -186,19 +186,41 @@ void bfs_spmv(int** int_array, int rows, int cols, int source,
         // INSERT YOUR CODE HERE
 
         // given a vector of source vetices, find the neighbors
-        // HINT: spmv 
-
-        // color the source vertices for this iteration `black'
-
+        // HINT: spmv
+	int neighbor_found = 0;
+	for (int i = 0; i < cols; i++) {
+		if (src[i] != 0) {
+			for (int j = 0; j < rows; j++) {
+				int neighbor = int_array[i][j] * src[i];
+				if (neighbor != 0) {
+					neighbor_found = 1;
+					dst[j] = 1;
+				}
+			}
+		}
+	}
+        // color the source vertices for this iteration `black'	
+	for (int i = 0; i < rows; i++) {
+		if (dst[i] == 1) {
+			color[i] = 2;
         // store the distance for the newly discovered neighbors
-
+			distance[i] = iter;
+		}
+		// output vector becomes input for next iteration
+		src[i] = dst[i];
         // Before we begin, eliminate vertices that have already been visited
-
+	// use color since we already wiped out previous vector
+		if (color[i] == 2)
+			for (int j = 0; j < cols; j++)
+				mat_trans[i][j] = 0;
+	}
         // Check to see if no neighbors were found,
         // in which case, we are done
-
+	if (neighbor_found == 0)
+		done++;
         // iter is equivalent to each `breadth' searched (i.e., distance from
         // the source vertex)
+	iter++;
     }
 
     fprintf(stdout, "done\n");

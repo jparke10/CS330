@@ -6,9 +6,9 @@ target = bfs
 
 
 $(target) : $(objects)
-	gcc -o $(target) $(objects)
+	$(CC) -o $(target) $(objects)
 
 %.o : %.c
-	gcc -c $(flags) $< -o $@
+	$(CC) -c $(flags) $< -o $@
 clean :
 	rm $(target) $(objects)
