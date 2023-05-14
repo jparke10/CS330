@@ -1,0 +1,57 @@
+0. READ THE INSTRUCTIONS BELOW COMPLETELY BEFORE PROCEEDING.
+
+ 
+
+1. In this assignment, you will be implementing a simple AI that does the following
+
+    a) accepts three arguments:
+
+        i) first argument: a text file that contains a list of tuples that are <keyword responseword happiness>
+
+        ii) second argument: a text file that contains a N messages .
+
+        iii) third argument: a text file where the output will be stored.
+
+    b) After reading in the first text file, it will go through each message in the second file, and if the message contains one of the 'keywords' from the first file, it will immediately respond with the appropriate message (depending on whether the corresponding 'keyword' makes the AI happy or not), along with the corresponding 'response' word. If more than one 'keyword' is included in the message, multiple responses will be made.
+
+    c) Each response will be stored in the third text file.
+
+ 
+
+2. We have provided a skeleton code that can be downloaded from the instructor's repo. Read it to gain an understanding of what the code does. READING AND UNDERSTANDING this new C++ code will be part of the assignment (but not specifically graded), and will be required to implement the required class definitions and implementations.
+
+ 
+
+3. After understanding how the code works, implement the following:
+
+    a. HappyResponse class definition in response.h
+
+    b. bool Response::checkAndRespond(const string& inWord, ostream& toWhere) function
+
+    c. void Response::respond(ostream& toWhere)
+
+    d. AngryResponse method that 'responds' to a given output stream
+
+    e. HappyResponse method that 'responds' to a given output stream.
+
+MORE DETAILS ARE PROVIDED IN THE SKELETON CODE COMMENTS. Look at equivalent class definitions and functions for hints. Remember that AngryResponse and HappyResponse inherit the Response class.
+
+ 
+
+4. Test the function on ix-dev on the two given sets of input files to make sure your code is working properly.
+
+ input.txt contains the tuples, message.txt contains the messages, and result.txt contains the answer that should be produced by your code.
+
+ 
+
+5. Thing to note:
+
+    a) Do not change ANY of the provided skeleton code.
+
+   b) Make sure your code compiles and runs on ix-dev with the provided Makefile
+
+   c) Look for "TODO" in the files - this is where the required classes and functions need to be implemented.
+
+ 
+
+6. Do the homework in your own repo, commit, and push to Bitbucket. If you do not push to Bitbucket, the TA and I cannot see the code, and it will be considered a late assignment (i.e., not graded).
