@@ -79,3 +79,10 @@ public:
 // TODO:
 // Implement the HappyResponse class definition
 // This will look somewhat similar to AngryResponse class
+
+class HappyResponse : public Response {
+	void respond(std::ostream& toWhere);
+
+public:
+	HappyResponse(std::string str1, std::string str2) : Response(str1, str2) {}
+};
