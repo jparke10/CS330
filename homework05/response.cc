@@ -41,7 +41,7 @@ bool Response::checkAndRespond(const string& inWord, ostream& toWhere)
     // String class provides the function 'find' which you might find useful
     // use upper on 1st char to match inWord to correct syntax
     // this pointer grabs keyword from current Response class
-    size_t found = inWord.find(this->keyword.normal());
+    size_t found = inWord.find(this->keyword.upper());
     // npos means end of string here, so if inWord is not found in string skip
     if (found != string::npos) {
 	    // call response and return true for exists var
