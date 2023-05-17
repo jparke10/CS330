@@ -1,0 +1,7 @@
+0
+the running key cipher has the same internal workings as the vigenere cipher
+the difference lies in how the key is chosen
+the vigenere cipher uses a short key that repeats whereas the running key cipher uses a long key such as an excerpt from a book
+this means the key does not repeat making cryptanalysis more difficult
+the cipher can still be broken though as there are statistical patterns in both the key and the plaintext which can be exploited
+There is no such a thing as random numbers only pseudorandom numbers

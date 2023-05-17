@@ -1,0 +1,2 @@
+121
+There is no such a thing as random numbers only pseudorandom numbers
