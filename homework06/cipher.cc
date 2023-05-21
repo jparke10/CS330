@@ -60,8 +60,8 @@ string Cipher::encrypt(string raw)
 		    continue;
 	    }
 	    // cipher is all lowercase so convert if necessary
-	    size_t cipher_idx = find_pos(smile->cipher_alpha, LOWER_CASE(raw[i]));
-	    char working_char = alphabet[cipher_idx];
+	    size_t cipher_idx = find_pos(alphabet, LOWER_CASE(raw[i]));
+	    char working_char = smile->cipher_alpha[cipher_idx];
 	    // 5.ii.a: retain the case
 	    // conditional checks if raw is within ASCII uppercase range
 	    if (raw[i] >= 'A' && raw[i] <= 'Z')
