@@ -51,6 +51,7 @@ string Cipher::encrypt(string raw)
 {
     cout << "Encrypting...";
     string retStr;
+    string alphabet = "abcdefghijklmnopqrstuvwxyz";
     for (size_t i = 0; i < raw.length(); i++) {
 	    // 5.ii.b: retain spaces
 	    // push_back method standard for appending single chars
@@ -60,7 +61,7 @@ string Cipher::encrypt(string raw)
 	    }
 	    // cipher is all lowercase so convert if necessary
 	    size_t cipher_idx = find_pos(smile->cipher_alpha, LOWER_CASE(raw[i]));
-	    char working_char = smile->cipher_alpha[cipher_idx];
+	    char working_char = alphabet[cipher_idx];
 	    // 5.ii.a: retain the case
 	    // conditional checks if raw is within ASCII uppercase range
 	    if (raw[i] >= 'A' && raw[i] <= 'Z')
@@ -81,6 +82,7 @@ string Cipher::decrypt(string enc)
 {
     string retStr;
     cout << "Decrypting...";
+    string alphabet = "abcdefghijklmnopqrstuvwxyz";
     for (size_t i = 0; i < enc.length(); i++) {
 	    if (enc[i] == ' ') {
 		    retStr.push_back(' ');
@@ -89,7 +91,7 @@ string Cipher::decrypt(string enc)
 	    // finding position of encrypted letter in cipher directs us to
 	    // decrypted letter
 	    size_t cipher_idx = find_pos(smile->cipher_alpha, LOWER_CASE(enc[i]));
-	    char working_char = smile->cipher_alpha[cipher_idx];
+	    char working_char = alphabet[cipher_idx];
 	    if (enc[i] >= 'A' && enc[i] <= 'Z')
 		    working_char = UPPER_CASE(working_char);
 	    retStr.push_back(working_char);
