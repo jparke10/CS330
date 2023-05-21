@@ -110,9 +110,12 @@ string Cipher::decrypt(string enc)
 unsigned int find_pos(string alpha, char c)
 {
     unsigned int pos = 0;
-
-    // TODO: You will likely need this function. Finish it.
-
+    for (size_t i = 0; i < (size_t)ALPHABET_SIZE; i++) {
+	    if (alpha[i] == c) {
+		    pos = i;
+		    break;
+	    }
+    }
     return pos;
 }
 
