@@ -60,6 +60,7 @@ string Cipher::encrypt(string raw)
 		    continue;
 	    }
 	    // cipher is all lowercase so convert if necessary
+	    // find index of the current letter in alphabet and pull ciphered letter
 	    size_t cipher_idx = find_pos(alphabet, LOWER_CASE(raw[i]));
 	    char working_char = smile->cipher_alpha[cipher_idx];
 	    // 5.ii.a: retain the case
