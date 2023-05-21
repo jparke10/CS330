@@ -21,7 +21,9 @@ bool is_valid_alpha(string alpha);
  */
 Cipher::Cipher()
 {
-    // TODO: Implement this default constructor 
+	smile = new CipherCheshire;
+	// use unscrambled alphabet for default constructor
+	smile->cipher_alpha = "abcdefghijklmnopqrstuvwxyz";
 }
 
 /* This constructor initiates the object with a
@@ -29,14 +31,17 @@ Cipher::Cipher()
  */
 Cipher::Cipher(string cipher_alpha)
 {
-    // TODO: Implement this constructor
+	if (is_valid_alpha(cipher_alpha) == true) {
+		smile = new CipherCheshire;
+		smile->cipher_alpha = cipher_alpha;
+	}
 }
 
 /* Destructor
  */
 Cipher::~Cipher()
 {
-    // TODO: Implement this constructor
+	delete smile;
 }
 
 /* This member function encrypts the input text 
@@ -46,7 +51,22 @@ string Cipher::encrypt(string raw)
 {
     cout << "Encrypting...";
     string retStr;
-    // TODO: Finish this function
+    for (size_t i = 0; i < raw.length(); i++) {
+	    // 5.ii.b: retain spaces
+	    // push_back method standard for appending single chars
+	    if (raw[i] == ' ') {
+		    retStr.push_back(' ');
+		    continue;
+	    }
+	    // cipher is all lowercase so convert if necessary
+	    size_t cipher_idx = find_pos(smile->cipher_alpha, LOWER_CASE(raw[i]));
+	    char working_char = smile->cipher_alpha[cipher_idx];
+	    // 5.ii.a: retain the case
+	    // conditional checks if raw is within ASCII uppercase range
+	    if (raw[i] >= 'A' && raw[i] <= 'Z')
+		    working_char = UPPER_CASE(working_char);
+	    retStr.push_back(working_char);
+    }
 
     cout << "Done" << endl;
 
@@ -61,7 +81,20 @@ string Cipher::decrypt(string enc)
 {
     string retStr;
     cout << "Decrypting...";
-    // TODO: Finish this function
+    for (size_t i = 0; i < enc.length(); i++) {
+	    if (enc[i] == ' ') {
+		    retStr.push_back(' ');
+		    continue;
+	    }
+	    // finding position of encrypted letter in cipher directs us to
+	    // decrypted letter
+	    size_t cipher_idx = find_pos(smile->cipher_alpha, LOWER_CASE(enc[i]));
+	    char working_char = smile->cipher_alpha[cipher_idx];
+	    if (enc[i] >= 'A' && enc[i] <= 'Z')
+		    working_char = UPPER_CASE(working_char);
+	    retStr.push_back(working_char);
+
+    }
 
     cout << "Done" << endl;
 
