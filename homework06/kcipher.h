@@ -11,5 +11,18 @@ const unsigned int MAX_LENGTH = 100;
    Running key cipher class. It 
    inherts class Cipher */
 // TODO: Implement this function
+class KCipher : public Cipher {
+	private:
+		unsigned int id;
+		vector<string> pages;
+	public:
+		KCipher();
+		KCipher(string page1);
+		~KCipher();
+		virtual void add_key(string page);
+		virtual void set_id(unsigned int page);
+		string encrypt(string raw) override;
+		string decrypt(string enc) override;
+}
 #endif
 
