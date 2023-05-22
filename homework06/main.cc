@@ -191,7 +191,7 @@ void caesar_enc(string ifile_name, string ofile_name)
 {
     // "Uncomment* this by repladcing 0 with 1 when you are ready to 
     // implement it. Leave it uncommented when you submit it.
-    #if 0
+    #if 1
     int offset;
     string plain_text;
     // Read in the shift/offset/rotation value and the plain text to encrypt
