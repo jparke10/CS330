@@ -9,22 +9,36 @@
 
 CCipher::CCipher() : Cipher() { offset = 0; }
 
-CCipher::CCipher(int offset) : Cipher(), offset(offset) {}
+CCipher::CCipher(int offset) : Cipher(), offset(offset) {
+	try {
+		if (offset < 0) {
+			throw offset;
+		}
+	}
+	catch (int offset) {
+		cerr << "Error: Caesar cipher is less than 0" << endl;
+		exit(EXIT_FAILURE);
+	}
+}
 
 CCipher::~CCipher() {}
 
 // -------------------------------------------------------
 
 string CCipher::encrypt(string raw) {
+	cout << "Encrypting...";
 	// seems safer to work with string copy
 	string ret = raw;
 	rotate_string(ret, offset);
+	cout << "Done" << endl;
 	return ret;
 }
 
 string CCipher::decrypt(string enc) {
+	cout << "Decrypting...";
 	string ret = enc;
 	rotate_string(ret, -offset);
+	cout << "Done" << endl;
 	return ret;
 }
 

@@ -31,10 +31,17 @@ Cipher::Cipher()
  */
 Cipher::Cipher(string cipher_alpha)
 {
-	if (is_valid_alpha(cipher_alpha) == true) {
-		smile = new CipherCheshire;
-		smile->cipher_alpha = cipher_alpha;
+	try {
+		if (is_valid_alpha(cipher_alpha) == false) {
+			throw cipher_alpha;
+		}
 	}
+	catch (string cipher_alpha) {
+		cerr << "Error: Invalid cipher alphabet/key: " << cipher_alpha << endl;
+		exit(EXIT_FAILURE);
+	}
+	smile = new CipherCheshire;
+	smile->cipher_alpha = cipher_alpha;
 }
 
 /* Destructor
