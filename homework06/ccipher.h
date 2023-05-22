@@ -8,6 +8,17 @@ using namespace std;
    Caesar cipher class. It 
    inherits the Cipher class */
 // TODO: Implement this class
+class CCipher: public Cipher {
+	private:
+		int offset;
+	public:
+		CCipher();
+		CCipher(int offset);
+		~CCipher();
+		// override keyword lets us overload the base class's enc/dec functions
+		string encrypt(string raw) override;
+		string decrypt(string enc) override;
+};
 
 /* Helper function headers 
  */
