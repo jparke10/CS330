@@ -38,8 +38,10 @@ void rotate_string(string& in_str, int rot)
 			continue;
 		char working_char = LOWER_CASE(in_str[i]);
 		// work through ASCII table, use order of operations and
-		// loop around alphabet with modulo
-		char rotated_char = (working_char - 'a' + rot) % 26 + 'a';
+		// loop around alphabet with modulo (add and take modulo again
+		// is to allow use of negative modulo)
+		char rotated_char = (((working_char - 'a' + rot) % 26)
+		       		    + 26) % 26 + 'a';
 		// 5.ii.a
 		if (in_str[i] >= 'A' && in_str[i] <= 'Z')
 			in_str[i] = UPPER_CASE(rotated_char);
