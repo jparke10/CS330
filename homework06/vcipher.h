@@ -8,6 +8,14 @@ using namespace std;
 /* A class that implements a
    Vigenere cipher class. It 
    inherts KCipher */
-// TODO: Implement this class
+class VCipher : public KCipher {
+	private:
+		string key;
+	public:
+		VCipher();
+		VCipher(string keyword);
+		~VCipher();
+		string encrypt(string raw) override;
+		string decrypt(string enc) override;
+};
 #endif
-

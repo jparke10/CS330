@@ -94,6 +94,7 @@ string KCipher::encrypt(string raw) {
 		cerr << "Error: Key length is shorter than entered text: " << key[id] << endl;
 		exit(EXIT_FAILURE);
 	}
+	cout << "Encrypting...";
 	string retStr;
 	// use string iterators to "point" to each character in the string
 	// allows for skipping spaces seamlessly, easier dereferencing
@@ -125,10 +126,12 @@ string KCipher::encrypt(string raw) {
 			retStr.push_back(alphabet[idx]);
 		ki++; pi++;
 	}
+	cout << "Done" << endl;
 	return retStr;
 }
 
-string KCipher::decrypt(string enc) {	
+string KCipher::decrypt(string enc) {
+	cout << "Decrypting...";
 	string retStr;
 	// we could validate the enc string with the key here too
 	// but it's not necessary in this implementation
@@ -154,5 +157,6 @@ string KCipher::decrypt(string enc) {
 			retStr.push_back(alphabet[idx]);
 		ki++; pi++;
 	}
+	cout << "Done" << endl;
 	return retStr;
 }
