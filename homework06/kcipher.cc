@@ -1,11 +1,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
-// added algorithm for remove function
-#include <algorithm>
 #include "kcipher.h"
-// added ccipher for rotate_string function
-// added cipher for find_pos function
 
 
 
@@ -20,30 +16,28 @@
 KCipher::KCipher() : Cipher() {
 	// by default, generate a blank key (all A's) at page 1 (idx 0)
 	id = 0;
-	key[id].insert(key[id].begin(), MAX_LENGTH, 'a');
+	string page1;
+	page1.insert(page1.begin(), MAX_LENGTH, 'a');
+	key.push_back(page1);
 }
 
 KCipher::KCipher(string page1) : Cipher() {
 	id = 0;
 	// remove all spaces and casing from page, for encryption step
-	key[id] = page1;
-	transform(key[id].begin(), key[id].end(), key[id].begin(), ::tolower);
-	remove(key[id].begin(), key[id].end(), ' ');
+//	remove_spaces(page1);
+	key.push_back(page1);
 }
 
-// destructor in header, no memory allocated
 KCipher::~KCipher() {}
 
 void KCipher::add_key(string page) {
-	string trim = page;
-	transform(trim.begin(), trim.end(), trim.begin(), ::tolower);
-	remove(trim.begin(), trim.end(), ' ');
-	key.push_back(trim);
+//	remove_spaces(page);
+	key.push_back(page);
 }
 
 void KCipher::set_id(unsigned int page) {
 	try {
-		if (page < key.size())
+		if (page > key.size())
 			throw page;
 	}
 	catch (unsigned int page) {
@@ -53,32 +47,51 @@ void KCipher::set_id(unsigned int page) {
 }
 
 string KCipher::encrypt(string raw) {
-	string retStr = raw;
-	// standardize input
-	transform(retStr.begin(), retStr.end(), retStr.begin(), ::tolower);
-	remove(retStr.begin(), retStr.end(), ' ');
-	for (size_t i = 0; i < retStr.length(); i++) {
+	try {
+		string key_trimmed = key[id];
+		string raw_trimmed = raw;
+		remove_spaces(key_trimmed);
+		remove_spaces(raw_trimmed);
+		if (key_trimmed.length() < raw_trimmed.length())
+			throw key[id];
+	}
+	catch (string key[id]) {
+		cerr << "Error: Key length is shorter than entered text" << endl;
+	}
+	string retStr = "";
+	string::iterator ki, pi;
+	for (ki = key[id].begin(), ki = raw.begin(); pi < raw.end(); ki++, pi++) {
+		if (*ki == ' ') {
+			retStr.push_back(' ');
+			ki++;
+			continue;
+		} else if (*pi == ' ') {
+			pi++;
+			continue;
+		}
 		string alphabet = "abcdefghijklmnopqrstuvwxyz";
-		unsigned int idx = find_pos(alphabet, retStr[i]);
+		unsigned int idx = find_pos(alphabet, *pi);
 		// rotating standard alphabet gives us our tabula recta
-		rotate_string(alphabet, (key[id][i] - 'a'));
-		retStr[i] = alphabet[idx];
+		rotate_string(alphabet, (*ki - 'a'));
+		retStr.push_back(alphabet[idx]);
 	}
 	// 5.ii: re-add case and spaces from raw
 	// probably a way to do this in O(n) but oh well
-	for (size_t i = 0; i < raw.length(); i++) {
-		if (raw[i] == ' ')
-			retStr.insert(i, 1, ' ');
-		else if (raw[i] >= 'A' && raw[i] <= 'Z')
+	/*
+	for (size_t i = 0; i < retStr.length(); i++) {
+		if (raw[i] >= 'A' && raw[i] <= 'Z')
 			retStr[i] = UPPER_CASE(retStr[i]);
 	}
+	*/
 	return retStr;
 }
 
 string KCipher::decrypt(string enc) {
+	
 	string retStr = enc;
+	/*
 	transform(retStr.begin(), retStr.end(), retStr.begin(), ::tolower);
-	remove(retStr.begin(), retStr.end(), ' ');
+	remove_spaces(retStr);
 	for (size_t i = 0; i < retStr.length(); i++) {
 		string alphabet = "abcdefghijklmnopqrstuvwxyz";
 		unsigned int idx = find_pos(alphabet, retStr[i]);
@@ -91,5 +104,15 @@ string KCipher::decrypt(string enc) {
 		else if (enc[i] >= 'A' && enc[i] <= 'Z')
 			retStr[i] = UPPER_CASE(retStr[i]);
 	}
+	*/
 	return retStr;
+}
+
+void remove_spaces(string& in_string) {
+	size_t idx;
+	while ((idx = in_string.find(' ')) != string::npos) {
+		string replacer = in_string.substr(idx + 1);
+		in_string.erase(idx, string::npos);
+		in_string += replacer;
+	}
 }

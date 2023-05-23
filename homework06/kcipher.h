@@ -10,7 +10,6 @@ const unsigned int MAX_LENGTH = 100;
 /* A class that implements a
    Running key cipher class. It 
    inherts class Cipher */
-// TODO: Implement this function
 class KCipher : public Cipher {
 	private:
 		unsigned int id;
@@ -24,5 +23,6 @@ class KCipher : public Cipher {
 		string encrypt(string raw) override;
 		string decrypt(string enc) override;
 };
-#endif
 
+void remove_spaces(string& in_string);
+#endif
