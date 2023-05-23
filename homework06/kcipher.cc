@@ -32,6 +32,7 @@ KCipher::KCipher(string page1) : Cipher() {
 }
 
 // destructor in header, no memory allocated
+KCipher::~KCipher() {}
 
 void KCipher::add_key(string page) {
 	string trim = page;
