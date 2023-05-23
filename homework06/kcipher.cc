@@ -4,10 +4,18 @@
 #include "kcipher.h"
 
 
-
-
 /* Helper function definitions
  */
+
+// just for input validation at this point 
+void remove_spaces(string& in_string) {
+	size_t idx;
+	while ((idx = in_string.find(' ')) != string::npos) {
+		string replacer = in_string.substr(idx + 1);
+		in_string.erase(idx, string::npos);
+		in_string += replacer;
+	}
+}
 
 // -------------------------------------------------------
 // Running Key Cipher implementation
@@ -23,30 +31,57 @@ KCipher::KCipher() : Cipher() {
 
 KCipher::KCipher(string page1) : Cipher() {
 	id = 0;
-	// remove all spaces and casing from page, for encryption step
-//	remove_spaces(page1);
+	// validate key is not an empty string
+	try {
+		if (page1.empty())
+			throw page1;
+		// validate key does not contain any non-alpha (with the exception
+		// of spaces) characters
+		// string iterator explained at :98
+		for (string::iterator i = page1.begin(); i < page1.end(); i++)
+			if (!isalpha(*i) && *i != ' ')
+				throw page1;
+	}
+	catch (string page1) {
+		cerr << "Invalid Running key: " << page1 << endl;
+		exit(EXIT_FAILURE);
+	}
 	key.push_back(page1);
 }
 
 KCipher::~KCipher() {}
 
 void KCipher::add_key(string page) {
-//	remove_spaces(page);
+	// maybe instead of copy and pasting, write helper function
+	try {
+		if (page.empty())
+			throw page;
+		for (string::iterator i = page.begin(); i < page.end(); i++)
+			if (!isalpha(*i) && *i != ' ')
+				throw page;
+	}
+	catch (string page) {
+		cerr << "Invalid Running key: " << page << endl;
+		exit(EXIT_FAILURE);
+	}
 	key.push_back(page);
 }
 
 void KCipher::set_id(unsigned int page) {
+	// validate id to be used is not outside bounds of vector
 	try {
-		if (page > key.size())
+		if (page >= key.size())
 			throw page;
 	}
 	catch (unsigned int page) {
 		cerr << "Warning: Invalid id: " << page << endl;
+		exit(EXIT_FAILURE);
 	}
-	id = page - 1;
+	id = page;
 }
 
 string KCipher::encrypt(string raw) {
+	// validate key is shorter than input string
 	try {
 		string key_trimmed = key[id];
 		string raw_trimmed = raw;
@@ -56,63 +91,68 @@ string KCipher::encrypt(string raw) {
 			throw key[id];
 	}
 	catch (string key[id]) {
-		cerr << "Error: Key length is shorter than entered text" << endl;
+		cerr << "Error: Key length is shorter than entered text: " << key[id] << endl;
+		exit(EXIT_FAILURE);
 	}
-	string retStr = "";
+	string retStr;
+	// use string iterators to "point" to each character in the string
+	// allows for skipping spaces seamlessly, easier dereferencing
 	string::iterator ki, pi;
-	for (ki = key[id].begin(), ki = raw.begin(); pi < raw.end(); ki++, pi++) {
+	for (ki = key[id].begin(), pi = raw.begin(); pi < raw.end();) {
+		// if key has a space, skip - if in str has a space,
+		// add it to retStr and skip
 		if (*ki == ' ') {
-			retStr.push_back(' ');
 			ki++;
 			continue;
 		} else if (*pi == ' ') {
+			// 5.ii.b
+			retStr.push_back(' ');
+			pi++;
+			continue;
+		}
+		// find the current plaintext char in the alphabet
+		// (first column of tabula recta)
+		string alphabet = "abcdefghijklmnopqrstuvwxyz";
+		unsigned int idx = find_pos(alphabet, LOWER_CASE(*pi));
+		// rotating standard alphabet n times (where n is the index
+		// of the current key letter in the standard alphabet) gives us
+		// the correct column of the tabula recta
+		rotate_string(alphabet, (*ki - 'a'));
+		// 5.ii.a
+		if (*pi >= 'A' && *pi <= 'Z')
+			retStr.push_back(UPPER_CASE(alphabet[idx]));
+		else
+			retStr.push_back(alphabet[idx]);
+		ki++; pi++;
+	}
+	return retStr;
+}
+
+string KCipher::decrypt(string enc) {	
+	string retStr;
+	// we could validate the enc string with the key here too
+	// but it's not necessary in this implementation
+	string::iterator ki, pi;
+	for (ki = key[id].begin(), pi = enc.begin(); pi < enc.end();) {
+		if (*ki == ' ') {
+			ki++;
+			continue;
+		} else if (*pi == ' ') {
+			retStr.push_back(' ');
 			pi++;
 			continue;
 		}
 		string alphabet = "abcdefghijklmnopqrstuvwxyz";
-		unsigned int idx = find_pos(alphabet, *pi);
-		// rotating standard alphabet gives us our tabula recta
-		rotate_string(alphabet, (*ki - 'a'));
-		retStr.push_back(alphabet[idx]);
+		unsigned int idx = find_pos(alphabet, LOWER_CASE(*pi));
+		// rotating the standard alphabet -n times (:117)
+		// gives us our original letter back, as the encrypted
+		// letter was essentially Caesar ciphered with n rotations
+		rotate_string(alphabet, -(*ki - 'a'));
+		if (*pi >= 'A' && *pi <= 'Z')
+			retStr.push_back(UPPER_CASE(alphabet[idx]));
+		else
+			retStr.push_back(alphabet[idx]);
+		ki++; pi++;
 	}
-	// 5.ii: re-add case and spaces from raw
-	// probably a way to do this in O(n) but oh well
-	/*
-	for (size_t i = 0; i < retStr.length(); i++) {
-		if (raw[i] >= 'A' && raw[i] <= 'Z')
-			retStr[i] = UPPER_CASE(retStr[i]);
-	}
-	*/
 	return retStr;
-}
-
-string KCipher::decrypt(string enc) {
-	
-	string retStr = enc;
-	/*
-	transform(retStr.begin(), retStr.end(), retStr.begin(), ::tolower);
-	remove_spaces(retStr);
-	for (size_t i = 0; i < retStr.length(); i++) {
-		string alphabet = "abcdefghijklmnopqrstuvwxyz";
-		unsigned int idx = find_pos(alphabet, retStr[i]);
-		rotate_string(alphabet, -(key[id][i] - 'a'));
-		retStr[i] = alphabet[idx];
-	}
-	for (size_t i = 0; i < enc.length(); i++) {
-		if (enc[i] == ' ')
-			retStr.insert(i, 1, ' ');
-		else if (enc[i] >= 'A' && enc[i] <= 'Z')
-			retStr[i] = UPPER_CASE(retStr[i]);
-	}
-	*/
-	return retStr;
-}
-
-void remove_spaces(string& in_string) {
-	size_t idx;
-	while ((idx = in_string.find(' ')) != string::npos) {
-		string replacer = in_string.substr(idx + 1);
-		in_string.erase(idx, string::npos);
-		in_string += replacer;
-	}
 }
