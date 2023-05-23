@@ -15,12 +15,12 @@ class KCipher : public Cipher {
 	private:
 		unsigned int id;
 		vector<string> key;
-		void add_key(string page);
-		void set_id(unsigned int page);
 	public:
 		KCipher();
 		KCipher(string page1);
 		~KCipher();
+		void add_key(string page);
+		void set_id(unsigned int page);
 		string encrypt(string raw) override;
 		string decrypt(string enc) override;
 };
