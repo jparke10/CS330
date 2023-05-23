@@ -87,7 +87,7 @@ string KCipher::decrypt(string enc) {
 	for (size_t i = 0; i < enc.length(); i++) {
 		if (enc[i] == ' ')
 			retStr.insert(i, 1, ' ');
-		else if (raw[i] >= 'A' && raw[i] <= 'Z')
+		else if (enc[i] >= 'A' && enc[i] <= 'Z')
 			retStr[i] = UPPER_CASE(retStr[i]);
 	}
 	return retStr;

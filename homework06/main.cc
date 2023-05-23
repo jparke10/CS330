@@ -281,7 +281,7 @@ void rk_enc(string ifile_name, string ofile_name)
 {
     // "Uncomment* this by repladcing 0 with 1 when you are ready to 
     // implement it. Leave it uncommented when you are ready to submit it.
-    #if 0
+    #if 1
     string plain_text;
     unsigned int page;
     vector<string> cont;
