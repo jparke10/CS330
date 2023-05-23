@@ -5,9 +5,9 @@ target = cipher
 
 
 $(target) : $(objects)
-	g++-13 -o $(target) $(objects)
+	g++ -o $(target) $(objects)
 
 %.o : %.cc
-	g++-13 -c $(flags) $< -o $@
+	g++ -c $(flags) $< -o $@
 clean :
 	rm $(target) $(objects)
