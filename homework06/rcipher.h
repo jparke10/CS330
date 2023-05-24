@@ -9,8 +9,6 @@ using namespace std;
    inherts class CCipher */
 
 class RCipher : public CCipher {
-	private:
-		int offset;
 	public:
 		RCipher();
 		~RCipher();
