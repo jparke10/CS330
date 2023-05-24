@@ -7,9 +7,16 @@
 // -------------------------------------------------------
 // Caesar Cipher implementation
 
-CCipher::CCipher() : Cipher() { offset = 0; }
+struct CCipher::CipherCheshire {
+	int offset;
+};
 
-CCipher::CCipher(int offset) : Cipher(), offset(offset) {
+CCipher::CCipher() {
+	smile = new CipherCheshire;
+	smile->offset = 0;
+}
+
+CCipher::CCipher(int offset) {
 	try {
 		if (offset < 0) {
 			throw offset;
@@ -19,9 +26,13 @@ CCipher::CCipher(int offset) : Cipher(), offset(offset) {
 		cerr << "Error: Caesar cipher is less than 0" << endl;
 		exit(EXIT_FAILURE);
 	}
+	smile = new CipherCheshire;
+	smile->offset = offset;
 }
 
-CCipher::~CCipher() {}
+CCipher::~CCipher() {
+	delete smile;
+}
 
 // -------------------------------------------------------
 
@@ -29,7 +40,7 @@ string CCipher::encrypt(string raw) {
 	cout << "Encrypting...";
 	// seems safer to work with string copy
 	string ret = raw;
-	rotate_string(ret, offset);
+	rotate_string(ret, smile->offset);
 	cout << "Done" << endl;
 	return ret;
 }
@@ -37,7 +48,7 @@ string CCipher::encrypt(string raw) {
 string CCipher::decrypt(string enc) {
 	cout << "Decrypting...";
 	string ret = enc;
-	rotate_string(ret, -offset);
+	rotate_string(ret, -(smile->offset));
 	cout << "Done" << endl;
 	return ret;
 }
