@@ -3,6 +3,10 @@
 #include <vector>
 #include "kcipher.h"
 
+struct KCipher::CipherCheshire {
+	vector<string> key;
+	int id;
+};
 
 /* Helper function definitions
  */
@@ -22,15 +26,17 @@ void remove_spaces(string& in_string) {
 // -------------------------------------------------------
 
 KCipher::KCipher() : Cipher() {
+	smile = new CipherCheshire;
+	smile->id = 0;
 	// by default, generate a blank key (all A's) at page 1 (idx 0)
-	id = 0;
 	string page1;
 	page1.insert(page1.begin(), MAX_LENGTH, 'a');
-	key.push_back(page1);
+	smile->key.push_back(page1);
 }
 
 KCipher::KCipher(string page1) : Cipher() {
-	id = 0;
+	smile = new CipherCheshire;
+	smile->id = 0;
 	// validate key is not an empty string
 	try {
 		if (page1.empty())
@@ -46,13 +52,12 @@ KCipher::KCipher(string page1) : Cipher() {
 		cerr << "Invalid Running key: " << page1 << endl;
 		exit(EXIT_FAILURE);
 	}
-	key.push_back(page1);
+	smile->key.push_back(page1);
 }
 
-KCipher::~KCipher() {}
+KCipher::~KCipher() { delete smile; }
 
 void KCipher::add_key(string page) {
-	// maybe instead of copy and pasting, write helper function
 	try {
 		if (page.empty())
 			throw page;
@@ -64,34 +69,34 @@ void KCipher::add_key(string page) {
 		cerr << "Invalid Running key: " << page << endl;
 		exit(EXIT_FAILURE);
 	}
-	key.push_back(page);
+	smile->key.push_back(page);
 }
 
 void KCipher::set_id(unsigned int page) {
 	// validate id to be used is not outside bounds of vector
 	try {
-		if (page >= key.size())
+		if (page >= smile->key.size())
 			throw page;
 	}
 	catch (unsigned int page) {
 		cerr << "Warning: Invalid id: " << page << endl;
 		exit(EXIT_FAILURE);
 	}
-	id = page;
+	smile->id = page;
 }
 
 string KCipher::encrypt(string raw) {
 	// validate key is shorter than input string
 	try {
-		string key_trimmed = key[id];
+		string key_trimmed = smile->key[smile->id];
 		string raw_trimmed = raw;
 		remove_spaces(key_trimmed);
 		remove_spaces(raw_trimmed);
 		if (key_trimmed.length() < raw_trimmed.length())
-			throw key[id];
+			throw key_trimmed;
 	}
-	catch (string key[id]) {
-		cerr << "Error: Key length is shorter than entered text: " << key[id] << endl;
+	catch (string key_trimmed) {
+		cerr << "Error: Key length is shorter than entered text: " << key_trimmed << endl;
 		exit(EXIT_FAILURE);
 	}
 	cout << "Encrypting...";
@@ -99,7 +104,7 @@ string KCipher::encrypt(string raw) {
 	// use string iterators to "point" to each character in the string
 	// allows for skipping spaces seamlessly, easier dereferencing
 	string::iterator ki, pi;
-	for (ki = key[id].begin(), pi = raw.begin(); pi < raw.end();) {
+	for (ki = smile->key[smile->id].begin(), pi = raw.begin(); pi < raw.end();) {
 		// if key has a space, skip - if in str has a space,
 		// add it to retStr and skip
 		if (*ki == ' ') {
@@ -136,7 +141,7 @@ string KCipher::decrypt(string enc) {
 	// we could validate the enc string with the key here too
 	// but it's not necessary in this implementation
 	string::iterator ki, pi;
-	for (ki = key[id].begin(), pi = enc.begin(); pi < enc.end();) {
+	for (ki = smile->key[smile->id].begin(), pi = enc.begin(); pi < enc.end();) {
 		if (*ki == ' ') {
 			ki++;
 			continue;

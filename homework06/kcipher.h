@@ -11,9 +11,9 @@ const unsigned int MAX_LENGTH = 100;
    Running key cipher class. It 
    inherts class Cipher */
 class KCipher : public Cipher {
-	private:
-		unsigned int id;
-		vector<string> key;
+	protected:
+		struct CipherCheshire;
+		CipherCheshire* smile;
 	public:
 		KCipher();
 		KCipher(string page1);

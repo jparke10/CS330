@@ -4,17 +4,21 @@
 #include "kcipher.h"
 #include "vcipher.h"
 
+struct VCipher::CipherCheshire {
+	string key;
+};
 
 // -------------------------------------------------------
 // Running Key Cipher implementation
 // -------------------------------------------------------
 
-VCipher::VCipher() : KCipher() {
+VCipher::VCipher() {
+	smile = new CipherCheshire;
 	// generate blank key for keyword var
-	key.insert(key.begin(), MAX_LENGTH, 'a');
+	smile->key.insert(smile->key.begin(), MAX_LENGTH, 'a');
 }
 
-VCipher::VCipher(string key) : KCipher(), key(key) {
+VCipher::VCipher(string key) {
 	try {
 		if (key.empty())
 			throw key;
@@ -26,18 +30,20 @@ VCipher::VCipher(string key) : KCipher(), key(key) {
 		cerr << "Error: not a valid Vigenere key word" << endl;
 		exit(EXIT_FAILURE);
 	}
+	smile = new CipherCheshire;
+	smile->key = key;
 }
 
-VCipher::~VCipher() {}
+VCipher::~VCipher() { delete smile; }
 
 string VCipher::encrypt(string raw) {
 	cout << "Encrypting...";
 	string retStr;
 	string::iterator ki, pi;
-	for (ki = key.begin(), pi = raw.begin(); pi < raw.end();) {
+	for (ki = smile->key.begin(), pi = raw.begin(); pi < raw.end();) {
 		// if iterator hits the end of the keyword, go back to beginning
-		if (ki >= key.end()) {
-			ki = key.begin();
+		if (ki >= smile->key.end()) {
+			ki = smile->key.begin();
 			continue;
 		} else if (*pi == ' ') {
 			// 5.ii.b
@@ -64,9 +70,9 @@ string VCipher::decrypt(string enc) {
 	cout << "Decrypting...";
 	string retStr;
 	string::iterator ki, pi;
-	for (ki = key.begin(), pi = enc.begin(); pi < enc.end();) {
-		if (ki >= key.end()) {
-			ki = key.begin();
+	for (ki = smile->key.begin(), pi = enc.begin(); pi < enc.end();) {
+		if (ki >= smile->key.end()) {
+			ki = smile->key.begin();
 			continue;
 		} else if (*pi == ' ') {
 			retStr.push_back(' ');

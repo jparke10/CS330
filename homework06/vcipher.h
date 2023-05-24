@@ -9,8 +9,9 @@ using namespace std;
    Vigenere cipher class. It 
    inherts KCipher */
 class VCipher : public KCipher {
-	private:
-		string key;
+	protected:
+		struct CipherCheshire;
+		CipherCheshire* smile;
 	public:
 		VCipher();
 		VCipher(string keyword);

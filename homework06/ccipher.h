@@ -8,7 +8,10 @@ using namespace std;
    Caesar cipher class. It 
    inherits the Cipher class */
 // TODO: Implement this class
-class CCipher: protected Cipher {
+class CCipher: public Cipher {
+	protected:
+		struct CipherCheshire;
+		CipherCheshire *smile;
 	public:
 		CCipher();
 		CCipher(int offset);
