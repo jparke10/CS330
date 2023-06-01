@@ -168,7 +168,8 @@ void BST::delete_node(Node* out)
 		y->add_right(out->get_right());
 		if (y->get_left() != nullptr) {
 			y->get_left()->add_parent(y);
-		} else if (y->get_right() != nullptr) {
+		}
+		if (y->get_right() != nullptr) {
 			y->get_right()->add_parent(y);
 		}
 	}
